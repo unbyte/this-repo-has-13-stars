@@ -14,5 +14,6 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           REPO_NAME: ${{ github.repository }}
-        run: hub api "repos/$REPO_NAME" --raw-field "name=this-repo-has-$(curl -s https://api.github.com/repos/$REPO_NAME | jq '.stargazers_count')-stars" > /dev/null
-
+        run: |
+          NEW_NAME=$(curl -s https://api.github.com/repos/$REPO_NAME | jq '.stargazers_count') &&
+            if [ $NEW_NAME != null ]; then hub api repos/$REPO_NAME --raw-field name=this-repo-has-$NEW_NAME-stars > /dev/null; fi
