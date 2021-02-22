@@ -4,6 +4,7 @@ on:
   push:
   schedule:
     - cron: '*/10 * * * *'
+  watch:
 
 jobs:
   update:
